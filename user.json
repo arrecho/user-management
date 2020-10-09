@@ -1,0 +1,17 @@
+{
+	"name": "Christian",
+	"email": "christian@christian.com",
+	"password": "Password12",
+	"phones": [
+		{
+			"number": "12345678",
+			"citycode": "1",
+			"contrycode": "57"
+		},
+        {
+			"number": "1234567",
+			"citycode": "1",
+			"contrycode": "99"
+		}
+		]
+}

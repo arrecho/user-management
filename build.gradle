@@ -1,0 +1,57 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+	id  'groovy'
+}
+
+group = 'com.bci'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.security:spring-security-test'
+	
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
+	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
+	// mandatory dependencies for using Spock
+	compile "org.codehaus.groovy:groovy:2.5.13"
+	testCompile platform("org.spockframework:spock-bom:2.0-M3-groovy-2.5")
+	testCompile "org.spockframework:spock-core"
+	testCompile "org.spockframework:spock-junit4"  // you can remove this if your code does not rely on old JUnit 4 rules
+	testCompile "org.spockframework:spock-spring"
+	// optional dependencies for using Spock
+	testCompile "org.hamcrest:hamcrest-core:2.2"   // only necessary if Hamcrest matchers are used
+	testRuntime "net.bytebuddy:byte-buddy:1.10.10" // allows mocking of classes (in addition to interfaces)
+	testRuntime "org.objenesis:objenesis:3.1"      // allows mocking of classes without default constructor (together with ByteBuddy or CGLIB)
+	
+	
+	
+	
+}
+
+
+task collectJars(type: Copy) {
+	into "$buildDir/output/lib"
+	from configurations.testRuntime
+}
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	  }
+}
